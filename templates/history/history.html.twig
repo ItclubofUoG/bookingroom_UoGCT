@@ -1,0 +1,91 @@
+{% extends 'base.html.twig' %}
+{% block stylesheets %}
+  {{ encore_entry_link_tags('app') }}
+  <link rel="stylesheet" href="{{ asset('css/history.css') }}" />
+{% endblock %}
+{% block header %}
+  <div class="head_logo">
+    <img src="{{ asset('img/2022-Greenwich-Eng.png') }}" alt="Logo" />
+  </div>
+  <nav class="navbar navbar-expand-lg" style="background-color: #003399;">
+  <div class="button_nav home">
+    <a class="nav-link home" style="color: #ffffff;" href="{{ path('admin') }}">Home</a>
+  </div>
+    <div class="navbar-nav">
+      <div class="button_nav">
+        <a class="nav-link" style="color: #ffffff;" href="{{ path('app_his') }}">History</a>
+      </div>
+      <button class="button_nav" id="updatedata">
+        <a class="nav-link" style="color: #ffffff;">Update data</a>
+      </button>
+      <div class="button_nav">
+        <a class="nav-link" style="color: #ffffff;" href="{{ path('app_logout') }}">Logout</a>
+      </div>
+    </div>
+  </nav>
+{% endblock %}
+{% block body %}
+<body>
+    <div class="title">
+        <h2>BOOKING HISTORY</h2>
+    </div>
+    <div class="navigation-item">
+        <div class="searching">
+            <form class="search-field" action="">
+                <input type="text" placeholder="Search room" name="search">
+                <button type="submit">Search</i></i></button>
+            </form>
+    </div>
+   <div class="dropdown">
+    <div class="selection month">
+        <select class="form-select" aria-label="Default select">
+        <option selected hidden>{{month}}</option>
+        {#<option value="March">March</option>s
+        <option value="April">April</option>
+        <option value="May">May</option> #}
+        {% for i in 0..11 %}
+          <option value="{{(i+1)}}">{{months[i]}}</option>
+        {% endfor %}
+      </select>
+    </div>
+
+    <div class="selection year">
+        <select class="form-select" aria-label="Default select">
+        <option selected hidden>{{year}}</option>
+        <option value="{{year-1}}">{{year-1}}</option>
+        <option value="{{year}}">{{year}}</option>
+        <option value="{{year+1}}">{{year+1}}</option>
+      </select>
+    </div>
+   </div>
+
+
+    </div>
+
+    <div class="tables" id="tables">
+    <table class="table table-hover" id="myHistoryTable">
+        <thead>
+          <tr>
+            <th scope="col">No.</th>
+            <th scope="col">Student</th>
+            <th scope="col">Date</th>
+            <th scope="col">Room</th>
+            <th scope="col">Slot</th>
+          </tr>
+        </thead>
+        <tbody>
+        {% for r in rever %}
+          <tr>
+            <th scope="row">{{loop.index}}</th>
+            <td>{{r.fullname}}</td>
+            <td class="date">{{r.date}}</td>
+            <td>{{r.name}}</td>
+            <td>{{r.slot}}</td>
+          </tr>
+        {% endfor %}
+        </tbody>
+      </table>
+      </div>
+       <script src="{{ asset('js/history.js') }}"></script>
+</body>
+{% endblock %}
