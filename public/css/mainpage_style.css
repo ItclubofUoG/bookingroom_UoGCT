@@ -332,3 +332,7 @@ button.button.btn {
 a.nav-link.active{
     text-align: center;
 }
+
+.nav-link.logout.active{
+    cursor: pointer;
+}
