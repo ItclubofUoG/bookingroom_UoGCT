@@ -50,31 +50,38 @@ $.ajax({
           '<div class="card_content col-md-9">' +
           '<h6 class="card-title">' +
           "<span>Student Name:</span>" +
-          ' ' + row.fullname +
+          " " +
+          row.fullname +
           "</h6>" +
           '<h6 class="card-title">' +
           "<span>Student Id:</span>" +
-          ' ' + row.mssv_cb +
+          " " +
+          row.mssv_cb +
           "</h6>" +
           '<h6 class="card-title">' +
           "<span>Room:</span>" +
-          ' ' + row.name +
+          " " +
+          row.name +
           "</h6>" +
           '<h6 class="card-title">' +
           "<span>Date:</span>" +
-          ' ' + row.date +
+          " " +
+          row.date +
           "</h6>" +
           '<h6 class="card-title">' +
           "<span>Slot:</span>" +
-          ' ' + row.slot +
+          " " +
+          row.slot +
           "</h6>" +
           '<h6 class="card-title">' +
           "<span>Amount:</span>" +
-          ' ' + row.amount +
+          " " +
+          row.amount +
           "</h6>" +
           '<h6 class="card-text">' +
           "<span>Reason:</span>" +
-          ' ' + row.reason +
+          " " +
+          row.reason +
           "</h6>" +
           "</div>" +
           '<div id="' +
@@ -100,80 +107,106 @@ $.ajax({
       );
     });
 
+    const swalWithBootstrapButtons = Swal.mixin({
+      customClass: {
+        confirmButton: "btn",
+        cancelButton: "btn btn-secondary me-3",
+      },
+      buttonsStyling: true,
+    });
+
     $(".btnaccept").click(function () {
-      var parent = $(this).parent();
-      parent
-        .empty()
-        .append(
-          '<div class="loader"><div class="dot dot-1"></div><div class="dot dot-2"></div><div class="dot dot-3"></div><div class="dot dot-4"></div><div class="dot dot-5"></div></div>'
-        );
-      var idRe = parent.attr("id");
-      var sameRe = parent.attr("class").split(" ")[0];
-      $("div." + sameRe)
-        .empty()
-        .append(
-          '<div class="loader"><div class="dot dot-1"></div><div class="dot dot-2"></div><div class="dot dot-3"></div><div class="dot dot-4"></div><div class="dot dot-5"></div></div>'
-        );
-      console.log(idRe + sameRe);
+      swalWithBootstrapButtons
+        .fire({
+          title: "Are you sure to accept?",
+          icon: "warning",
+          showCancelButton: true,
+          confirmButtonText: "Accept",
+          confirmButtonColor: "#003399",
+          cancelButtonText: "Cancel",
+          reverseButtons: true,
+        })
+        .then((result) => {
+          if (result.isConfirmed) {
+            var parent = $(this).parent();
+            parent
+              .empty()
+              .append(
+                '<div class="loader"><div class="dot dot-1"></div><div class="dot dot-2"></div><div class="dot dot-3"></div><div class="dot dot-4"></div><div class="dot dot-5"></div></div>'
+              );
+            var idRe = parent.attr("id");
+            var sameRe = parent.attr("class").split(" ")[0];
+            $("div." + sameRe)
+              .empty()
+              .append(
+                '<div class="loader"><div class="dot dot-1"></div><div class="dot dot-2"></div><div class="dot dot-3"></div><div class="dot dot-4"></div><div class="dot dot-5"></div></div>'
+              );
+            console.log(idRe + sameRe);
 
-      $.ajax({
-        type: "GET",
-        url: "/accept",
-        data: {
-          id: idRe,
-        },
-        success: function (response) {
-          parent.parent().parent().replaceWith();
-          $("div." + sameRe)
-            .parent()
-            .parent()
-            .replaceWith();
-          console.log("Success");
+            $.ajax({
+              type: "GET",
+              url: "/accept",
+              data: {
+                id: idRe,
+              },
+              success: function (response) {
+                parent.parent().parent().replaceWith();
+                $("div." + sameRe)
+                  .parent()
+                  .parent()
+                  .replaceWith();
+                console.log("Success");
 
-          $.ajax({
-            type: "post",
-            url: "/data",
-            data: {
-              day: day,
-              from: 1,
-              to: 25,
-            },
-            success: function (data) {
-              // console.log(data);
-              // console.log(day);
-              $.each(data, function (index, row) {
-                // console.log(row)
-                $(
-                  "#" +
-                    row.name +
-                    " td:nth-child(" +
-                    String(Number(row.slot) + 1) +
-                    ")"
-                ).empty();
-                let s = "";
-                if ($.isNumeric(row.class)) {
-                  s += "<span>" + row.room_id + "</span>";
-                  s += "<span>" + row.mssv + "</span>";
-                  if (row.class == "0") {
-                    s += '<span class="text-danger">Processing</span>';
-                  } else {
-                    s += '<span class="text-success">Accept</span>';
-                  }
-                } else {
-                  s += row.class;
-                }
-                $(
-                  "#" +
-                    row.name +
-                    " td:nth-child(" +
-                    String(Number(row.slot) + 1) +
-                    ")"
-                ).append(s);
-              });
-            },
-          });
-        },
-      });
+                $.ajax({
+                  type: "post",
+                  url: "/data",
+                  data: {
+                    day: day,
+                    from: 1,
+                    to: 25,
+                  },
+                  success: function (data) {
+                    // console.log(data);
+                    // console.log(day);
+                    $.each(data, function (index, row) {
+                      // console.log(row)
+                      $(
+                        "#" +
+                          row.name +
+                          " td:nth-child(" +
+                          String(Number(row.slot) + 1) +
+                          ")"
+                      ).empty();
+                      let s = "";
+                      if ($.isNumeric(row.class)) {
+                        s += "<span>" + row.room_id + "</span>";
+                        s += "<span>" + row.mssv + "</span>";
+                        if (row.class == "0") {
+                          s += '<span class="text-danger">Processing</span>';
+                        } else {
+                          s += '<span class="text-success">Accept</span>';
+                        }
+                      } else {
+                        s += row.class;
+                      }
+                      $(
+                        "#" +
+                          row.name +
+                          " td:nth-child(" +
+                          String(Number(row.slot) + 1) +
+                          ")"
+                      ).append(s);
+                    });
+                  },
+                });
+              },
+            });
+          } else if (
+            /* Read more about handling dismissals below */
+            result.dismiss === Swal.DismissReason.cancel
+          ) {
+          }
+        });
     });
 
     // $('.btnreject').click(function() {
@@ -390,4 +423,34 @@ function pageButtons($pCount, $cur) {
     $nextDis +
     ">";
   return $buttons;
+}
+
+function checkLogout() {
+  const swalWithBootstrapButtons = Swal.mixin({
+    customClass: {
+      confirmButton: "btn",
+      cancelButton: "btn btn-secondary me-3",
+    },
+    buttonsStyling: true,
+  });
+
+  swalWithBootstrapButtons
+    .fire({
+      title: "Are you sure to logout?",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonText: "Logout",
+      confirmButtonColor: "#003399",
+      cancelButtonText: "Cancel",
+      reverseButtons: true,
+    })
+    .then((result) => {
+      if (result.isConfirmed) {
+        window.location.href = "/logout";
+      } else if (
+        /* Read more about handling dismissals below */
+        result.dismiss === Swal.DismissReason.cancel
+      ) {
+      }
+    });
 }
