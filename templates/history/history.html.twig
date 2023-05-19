@@ -5,11 +5,11 @@
 {% endblock %}
 {% block header %}
   <div class="head_logo">
-    <img src="{{ asset('img/2022-Greenwich-Eng.png') }}" alt="Logo" />
+    <a href="{{ path('admin')}}"><img src="{{ asset('img/2022-Greenwich-Eng.png') }}" alt="Logo" /></a>
   </div>
   <nav class="navbar navbar-expand-lg" style="background-color: #003399;">
   <div class="button_nav home">
-    <a class="nav-link home" style="color: #ffffff;" href="{{ path('admin') }}">Home</a>
+    <a class="nav-link home" style="color: #ffffff;" href="{{ path('admin')}}">Home</a>
   </div>
     <div class="navbar-nav">
       <div class="button_nav">
@@ -18,6 +18,9 @@
       <button class="button_nav" id="updatedata">
         <a class="nav-link" style="color: #ffffff;">Update data</a>
       </button>
+      <div class="button_nav">
+        <a class="nav-link active" style="color: #ffffff;" href="{{ path('app_changepassword') }}">Change Password</a>
+      </div>
       <div class="button_nav">
         <a class="nav-link" style="color: #ffffff;" href="{{ path('app_logout') }}">Logout</a>
       </div>

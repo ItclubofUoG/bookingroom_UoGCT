@@ -327,3 +327,8 @@ button.button.btn {
 
 
 /* Change password form */
+
+/*  */
+a.nav-link.active{
+    text-align: center;
+}
