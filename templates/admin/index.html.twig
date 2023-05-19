@@ -102,14 +102,16 @@
               <form>
                 <input type="hidden" class="form-control" name="rowId" id="rowId" value="" readonly />
                 <div class="mb-2">
-                  <label for="message-text" class="col-form-label">Reason:</label><textarea class="form-control" name="txtReason" id="txtReason" required></textarea>
+                  <label for="message-text" class="col-form-label">Reason:</label>
+                  <textarea class="form-control" name="txtReason" id="txtReason" required></textarea>
+                  <span class="text-danger" id="errorReason"></span>
                 </div>
               </form>
             </div>
           <div class="modal-footer">
             <input type="hidden" name="same" id="same" value="" readonly />
             <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-            <button type="button" class="button enter" onclick="checkSubmit()" id="button" data-bs-dismiss="modal">Submit</button>
+            <button type="button" class="btn" disabled onclick="checkSubmit()" id="button" data-bs-dismiss="modal">Submit</button>
           </div>
         </div>
       </div>
