@@ -1,5 +1,7 @@
 
 ###> symfony/framework-bundle ###
+/.env
+/public/js/scraperData/node_modules/
 /.env.local
 /.env.local.php
 /.env.*.local

@@ -1,21 +1,62 @@
 version: '3'
 
 services:
-###> doctrine/doctrine-bundle ###
-  database:
-    image: postgres:${POSTGRES_VERSION:-15}-alpine
-    environment:
-      POSTGRES_DB: ${POSTGRES_DB:-app}
-      # You should definitely change the password in production
-      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-!ChangeMe!}
-      POSTGRES_USER: ${POSTGRES_USER:-app}
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    restart: unless-stopped
+    ports:
+      - "9000:9000"
     volumes:
-      - database_data:/var/lib/postgresql/data:rw
-      # You may use a bind-mounted host directory instead, so that it is harder to accidentally remove the volume and lose all your data!
-      # - ./docker/db/data:/var/lib/postgresql/data:rw
-###< doctrine/doctrine-bundle ###
+      - .:/var/www/html
+    networks:
+      - bookingroom-network
+
+  webserver:
+    image: nginx
+    restart: unless-stopped
+    ports:
+      - "8000:80"
+    volumes:
+      - .:/var/www/html
+      - ./nginx/default.conf:/etc/nginx/conf.d/default.conf
+    depends_on:
+      - app
+    networks:
+      - bookingroom-network
+
+  mysql:
+    image: mysql:8.2.0
+    restart: unless-stopped
+    ports:
+      - "3306:3306"
+    environment:
+      MYSQL_ROOT_PASSWORD: bookingroom_password
+      MYSQL_DATABASE: bookingroom_db
+      MYSQL_USER: bookingroom_user
+      MYSQL_PASSWORD: bookingroom_password
+    volumes:
+      - dbdata:/var/lib/mysql
+    networks:
+      - bookingroom-network
+
+  phpmyadmin:
+    image: phpmyadmin
+    restart: unless-stopped
+    environment:
+      PMA_HOST: mysql
+    ports:
+      - "8888:80"
+    depends_on:
+      - mysql
+    networks:
+      - bookingroom-network
 
 volumes:
-###> doctrine/doctrine-bundle ###
-  database_data:
-###< doctrine/doctrine-bundle ###
+  dbdata:
+    driver: local
+
+networks:
+  bookingroom-network:
+    driver: bridge

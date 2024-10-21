@@ -37,7 +37,7 @@ class ReservationController extends AbstractController
         $text = 'Your Request to booking room '.$room.'  has been reject because with reason "' .$txtReason .'"';
 
         $email = (new Email())
-        ->from('gwctbookingroom@gmail.com')
+        ->from('trannqgcc210042@fpt.edu.vn')
         ->to($to)
         ->subject('Booking Room request reject')
         ->text($text);
@@ -80,7 +80,7 @@ class ReservationController extends AbstractController
         $text = 'Your Request to booking room '.$room.'  has been accept';
 
         $email = (new Email())
-        ->from('gwctbookingroom@gmail.com')
+        ->from('trannqgcc210042@fpt.edu.vn')
         ->to($to)
         ->subject('Booking Room request accept')
         ->text($text);
@@ -145,7 +145,7 @@ class ReservationController extends AbstractController
         $studentMail = $user->getEmail();
         $text = 'Reservation required for room ' . $room . ' from student ' . $studentMail . ' entering the slot ' . $slot . ' with reason: ' . $reason;
         $email = (new Email())
-                ->from('gwctbookingroom@gmail.com')
+                ->from('trannqgcc210042@fpt.edu.vn')
                 // Admin mail
                 ->to('xx@gmailcom')
                 ->subject('New booking request')

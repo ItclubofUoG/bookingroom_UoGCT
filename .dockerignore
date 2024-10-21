@@ -1,0 +1,33 @@
+# Ignore usual development files and directories
+/var
+/vendor
+/bin
+/node_modules
+/public/bundles
+/public/build
+/public/uploads
+/var/cache
+/var/log
+/var/sessions
+/.phpunit.result.cache
+/phpunit.xml
+/.env.local
+/.env.local.php
+/docker
+/docker-compose.yml
+/docker-compose.override.yml
+/Dockerfile
+/phpstan.neon
+/psalm.xml
+/public/encore
+/var/bootstrap.php.cache
+/var/jwt
+/var/spool
+/.idea
+/.vscode
+
+# Ignore VCS files and directories
+.git
+.gitignore
+.gitattributes
+.svn
